@@ -70,8 +70,9 @@ class LatestGithubRelease {
 		}
 
 		else {
+			// Get Release API URL with the user & repo names
 			$combine_link =	'https://api.github.com/repos/' . $atts['user'] . '/' . $atts['repo'] . '/releases/latest';
-			var_dump($combine_link);
+
 			// Pass the Release API URL with the transient name
 			$final_url = $this->run_link_processor($combine_link);
 			return '<a href="' . $final_url . '" class="cp-release-link" rel="noopener" target="_blank">' . $atts['name'] . '</a>';
@@ -109,6 +110,15 @@ class LatestGithubRelease {
 			// Return link
 			return $link_core_return_url;
 		}
+
+	}
+
+	// On deactivation. Clear the links transient created in DB.
+	static function lgr_release_link_deactivation() {
+
+		if ( true == get_transient( 'lg_release_zip_link' ) ) {
+			delete_transient( 'lg_release_zip_link' );
+		}
 		
 	}
 }
@@ -117,13 +127,4 @@ class LatestGithubRelease {
 $CP_release_link = new LatestGithubRelease;
 $CP_release_link->register();
 
-// On deactivation. Clear the links transient created in DB.
-function lgr_release_link_deactivation() {
-
-	if ( true == get_transient( 'lg_release_zip_link' ) ) {
-		delete_transient( 'lg_release_zip_link' );
-	}
-	
-}
-
-register_deactivation_hook(__FILE__, 'lgr_release_link_deactivation' );
+register_deactivation_hook(__FILE__, array( 'LatestGithubRelease', 'lgr_release_link_deactivation') );
