@@ -114,7 +114,7 @@ class LatestGithubRelease {
 	}
 
 	// On deactivation. Clear the links transient created in DB.
-	static function lgr_release_link_deactivation() {
+	public function lgr_release_link_deactivation() {
 
 		if ( true == get_transient( 'lg_release_zip_link' ) ) {
 			delete_transient( 'lg_release_zip_link' );
