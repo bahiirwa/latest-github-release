@@ -14,4 +14,4 @@ One can add some customization to the shortcode such as
 1. Name is usedin combination with the other attribbutes user & repo.
 
 ## Contribute/Issues/Feedback
-If you have any feedback, just write an issue. Or fork the code and submit a PR [here](https://github.com/bahiirwa/Latest-Github-Release).
+If you have any feedback, just write an issue. Or fork the code and submit a PR [on Github](https://github.com/bahiirwa/Latest-Github-Release).
