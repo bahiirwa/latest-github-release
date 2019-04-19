@@ -63,8 +63,6 @@ class LatestGithubRelease {
 			$atts,
 			'latest_github_release');
 
-		var_dump($atts);
-
 		$trans_name = 'lg_release_zip_link_' . $atts['repo'];
 
 		// Get any existing copy of our transient data		
@@ -116,7 +114,7 @@ class LatestGithubRelease {
 			//If the repo has no releases, it returns no links so, Echo message and exit.
 			if (empty($link_core_return_url)) {
 
-				esc_html_e( $attribute_name . ' ' . 'repository has no releases. Talk to the Repository Admin.', 'latest_github_release' );
+				echo '<p style="color: red;">' . $attribute_name . ' ' . esc_html__( 'repository has no releases. Talk to the Repository Admin.', 'my-text-domain' ) . '</p>';
 				return;
 				
 			} else {
