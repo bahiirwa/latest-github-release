@@ -54,7 +54,7 @@ class LatestGithubRelease {
 			'repo' => '',
 			'user' => '',
 			// set default button name to Download
-			'name' => 'Download',
+			'name' => 'Download Zip',
 		];
 
 		// Replace any missing shortcode arguments with defaults.
