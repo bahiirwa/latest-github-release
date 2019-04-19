@@ -15,6 +15,9 @@
  * 
  */
 
+namespace laurenbahiirwa\LatestGithubRelease;
+
+
 // Prevent direct access.
 if (!defined('ABSPATH')) {
 	die();
@@ -59,6 +62,8 @@ class LatestGithubRelease {
 			$defaults,
 			$atts,
 			'latest_github_release');
+
+		var_dump($atts);
 
 		$trans_name = 'lg_release_zip_link_' . $atts['repo'];
 
@@ -110,7 +115,8 @@ class LatestGithubRelease {
 
 			//If the repo has no releases, it returns no links so, Echo message and exit.
 			if (empty($link_core_return_url)) {
-				print_r('Apologies, the ' . $attribute_name . ' repository has no releases.');
+
+				esc_html_e( $attribute_name . ' ' . 'repository has no releases. Talk to the Repository Admin.', 'latest_github_release' );
 				return;
 				
 			} else {
@@ -131,9 +137,7 @@ class LatestGithubRelease {
 	 * @param array $atts Shortcode arguments.
 	 * 
 	 */
-	public function lgr_release_link_deactivation($atts) {
-
-		echo 'Deactivated the plugin for good. This is the deactivation message';
+	public function deactivation($atts) {
 
 		$transient_to_delete = 'lg_release_zip_link_' . $atts['repo'];
 		if ( true == get_transient( $transient_to_delete ) ) {
@@ -148,4 +152,4 @@ class LatestGithubRelease {
 $CP_release_link = new LatestGithubRelease;
 $CP_release_link->register();
 
-register_deactivation_hook(__FILE__, array( 'LatestGithubRelease', 'lgr_release_link_deactivation' ) );
+register_deactivation_hook(__FILE__, array( 'LatestGithubRelease', 'deactivation' ) );
