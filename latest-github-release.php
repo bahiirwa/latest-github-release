@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Latest Github Release
- * Description: Automatically add a download link to the latest Github repo release zips with a shortcode [latest_github_release user="Github" repo="years-since"]
+ * Description: Automatically add a download link to the latest Github repo release zips with a shortcode like [latest_github_release user="Github" repo="years-since"]
  * Version: 0.1.0
  * Author: Laurence Bahiirwa
  * Author URI: https://omukiguy.com
@@ -63,16 +63,17 @@ class LatestGithubRelease {
 			$atts,
 			'latest_github_release');
 
-		// Get any existing copy of our transient data
-		if ( true == get_transient('lg_release_zip_link') ) {
-			$final_url = get_transient('lg_release_zip_link');
-			return '<a href="' . $final_url . '" class="cp-release-link" target="_blank">' . $atts['name'] . '</a>';
+		// Get any existing copy of our transient data		
+		if ( !empty( true == get_transient('lg_release_zip_link') ) ) {
+			return '<a href="' . get_transient('lg_release_zip_link') . '" class="cp-release-link" target="_blank">' . $atts['name'] . '</a>';
+			var_dump( $final_url );
 		}
+
 		else {
-			//https://api.github.com/repos/bahiirwa/years-since/zipball/1.2.0
 			$combine_link =	'https://api.github.com/repos/' . $atts['user'] . '/' . $atts['repo'] . '/releases/latest';
+			var_dump($combine_link);
 			// Pass the Release API URL with the transient name
-			$final_url = $this->run_link_processor( $combine_link, 'lg_release_zip_link');
+			$final_url = $this->run_link_processor($combine_link);
 			return '<a href="' . $final_url . '" class="cp-release-link" rel="noopener" target="_blank">' . $atts['name'] . '</a>';
 		}
 
@@ -88,35 +89,25 @@ class LatestGithubRelease {
 	 * @param array $atts Shortcode arguments.
 	 * @return string Link URL to zip release file if no url_link is set in Shortcode
 	 */
-	public function run_link_processor($zip_link, $transient_name) {
+	public function run_link_processor($zip_link) {
 
-		// Get any existing copy of our transient data
-		if ( true == get_transient($transient_name) ) {
-			$link_core_return_url = get_transient($transient_name);
-			return $link_core_url;
+		// Make API Call.
+		$response = wp_remote_get( esc_url_raw($zip_link) );
+		// Error catch for failed API Call.
+		if ( is_wp_error( $response ) ) {
+			echo "Something went wrong";
+			var_dump($response);
 		} 
-		// Else create a transient option
 		else {
-			// Make API Call.
-			$response = wp_remote_get( esc_url_raw($zip_link) );
-			// Error catch for failed API Call.
-			if ( is_wp_error( $response ) ) {
-				echo "Something went wrong";
-				var_dump($response);
-			} 
-			else {
-				/* Will result in $api_response being an array of data,
-				parsed from the JSON response of the API listed above */
-				$api_response = json_decode( wp_remote_retrieve_body( $response ), true );
-				// Catch Zipball_url link
-				$link_core_return_url =  $api_response['zipball_url'] ;
-				// Set 5 minute expiry trnasient with the DB to reduce network calls.
-				set_transient($transient_name, $link_core_return_url, 5 * MINUTE_IN_SECONDS );
-				// If no url_link is set in shortcode then save variable of the API link for zip.
-				$link_core_url = ( $ghb_url ) ? $ghb_url : $link_core_return_url;
-				// Return link
-				return $link_core_url;
-			}
+			/* Will result in $api_response being an array of data,
+			parsed from the JSON response of the API listed above */
+			$api_response = json_decode( wp_remote_retrieve_body( $response ), true );
+			// Catch Zipball_url link
+			$link_core_return_url =  $api_response['zipball_url'] ;
+			// Set 5 minute expiry trnasient with the DB to reduce network calls. Save API link for zip
+			set_transient('lg_release_zip_link', $link_core_return_url, 5 * MINUTE_IN_SECONDS );
+			// Return link
+			return $link_core_return_url;
 		}
 		
 	}
