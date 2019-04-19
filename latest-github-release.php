@@ -133,8 +133,11 @@ class LatestGithubRelease {
 	 */
 	public function lgr_release_link_deactivation($atts) {
 
-		if ( true == get_transient( 'lg_release_zip_link_' . $atts['repo'] ) ) {
-			delete_transient( 'lg_release_zip_link_' . $atts['repo'] );
+		echo 'Deactivated the plugin for good. This is the deactivation message';
+
+		$transient_to_delete = 'lg_release_zip_link_' . $atts['repo'];
+		if ( true == get_transient( $transient_to_delete ) ) {
+			delete_transient( $transient_to_delete );
 		}
 		
 	}
