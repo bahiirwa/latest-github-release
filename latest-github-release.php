@@ -63,18 +63,20 @@ class LatestGithubRelease {
 			$atts,
 			'latest_github_release');
 
+		$trans_name = 'lg_release_zip_link_' . $atts['repo'];
+
 		// Get any existing copy of our transient data		
-		if ( !empty( true == get_transient('lg_release_zip_link') ) ) {
-			return '<a href="' . get_transient('lg_release_zip_link') . '" class="cp-release-link" target="_blank">' . $atts['name'] . '</a>';
+		if ( !empty( true == get_transient($trans_name) ) ) {
+			return '<a href="' . get_transient($trans_name) . '" class="cp-release-link" target="_blank">' . $atts['name'] . '</a>';
 			var_dump( $final_url );
 		}
 
 		else {
 			// Get Release API URL with the user & repo names
 			$combine_link =	'https://api.github.com/repos/' . $atts['user'] . '/' . $atts['repo'] . '/releases/latest';
-
+			var_dump($combine_link);
 			// Pass the Release API URL with the transient name
-			$final_url = $this->run_link_processor($combine_link);
+			$final_url = $this->run_link_processor($combine_link, $atts['repo']);
 			return '<a href="' . $final_url . '" class="cp-release-link" rel="noopener" target="_blank">' . $atts['name'] . '</a>';
 		}
 
@@ -90,7 +92,7 @@ class LatestGithubRelease {
 	 * @param array $atts Shortcode arguments.
 	 * @return string Link URL to zip release file if no url_link is set in Shortcode
 	 */
-	public function run_link_processor($zip_link) {
+	public function run_link_processor($zip_link, $attribute_name) {
 
 		// Make API Call.
 		$response = wp_remote_get( esc_url_raw($zip_link) );
@@ -106,7 +108,7 @@ class LatestGithubRelease {
 			// Catch Zipball_url link
 			$link_core_return_url =  $api_response['zipball_url'] ;
 			// Set 5 minute expiry trnasient with the DB to reduce network calls. Save API link for zip
-			set_transient('lg_release_zip_link', $link_core_return_url, 5 * MINUTE_IN_SECONDS );
+			set_transient('lg_release_zip_link_' . $attribute_name, $link_core_return_url, 5 * MINUTE_IN_SECONDS );
 			// Return link
 			return $link_core_return_url;
 		}
