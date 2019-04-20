@@ -108,21 +108,19 @@ class LatestGithubRelease {
 			/* Will result in $api_response being an array of data,
 			parsed from the JSON response of the API listed above */
 			$api_response = json_decode( wp_remote_retrieve_body( $response ), true );
-			// Catch Zipball_url link
-			$link_core_return_url =  $api_response['zipball_url'] ;
-
-			//If the repo has no releases, it returns no links so, Echo message and exit.
-			if (empty($link_core_return_url)) {
-
+			// Catch Zipball_url link. If the repo has no releases, it returns no links so, Echo message and exit.
+			if (empty($api_response['zipball_url'])) {
+				// Return error message.
 				echo '<p style="color: red;">' . $attribute_name . ' ' . esc_html__( 'repository has no releases. Talk to the Repository Admin.', 'my-text-domain' ) . '</p>';
 				return;
-				
-			} else {
-				// Set 5 minute expiry trnasient with the DB to reduce network calls. Save API link for zip
-				set_transient('lg_release_zip_link_' . $attribute_name, $link_core_return_url, 5 * MINUTE_IN_SECONDS );
-				// Return link
-				return $link_core_return_url;
 			}
+			
+			$link_core_return_url = $api_response['zipball_url'];
+			// Set 5 minute expiry trnasient with the DB to reduce network calls. Save API link for zip
+			set_transient('lg_release_zip_link_' . $attribute_name, $link_core_return_url, 5 * MINUTE_IN_SECONDS );
+			// Return link
+			return $link_core_return_url;
+
 		}
 
 	}
