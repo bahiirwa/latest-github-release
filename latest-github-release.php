@@ -71,9 +71,13 @@ class LatestGithubRelease {
 			$atts,
 			'latest_github_release');
 
-		// Get any existing copy of our transient data		
-		if ( !empty( true == get_transient($this->lg_release_zip) ) ) {
-			return '<a href="' . get_transient($this->lg_release_zip) . '" class="cp-release-link">' . $atts['name'] . '</a>';
+		// Get any existing copy of our transient data	
+		$transient_name =  $this->lg_release_zip . '_' . $atts['repo'];
+
+		if ( !empty( true == get_transient( $transient_name ) ) ) {
+			
+			return '<a href="' . get_transient( $transient_name ) . '" class="cp-release-link">' . $atts['name'] . '</a>';
+			
 		}
 
 		else {
@@ -86,7 +90,15 @@ class LatestGithubRelease {
 			 */
 			$final_url = $this->run_link_processor($combine_link, $atts['user'], $atts['repo']);
 
+			if ( empty( $final_url ) ) {
+				return;
+			}
+
+			// Save API link for zip in 5 minute expiry transient inside DB to reduce network calls.
+			set_transient($this->lg_release_zip . $atts['repo'], $final_url, 5 * MINUTE_IN_SECONDS );
+
 			return '<a href="' . $final_url . '" class="cp-release-link">' . $atts['name'] . '</a>';
+
 		}
 
 	}
@@ -108,29 +120,30 @@ class LatestGithubRelease {
 		if ( is_wp_error( $response ) ) {
 			echo "Something went wrong";
 			var_dump($response);
-		} 
-		else {
-			/* Will result in $api_response being an array of data,
-			parsed from the JSON response of the API listed above */
-			$api_response = json_decode( wp_remote_retrieve_body( $response ), true );
-			// Catch tag_name link. If the repo has no releases, it returns no links so, Echo message and exit.
-			$version = $api_response['tag_name'];
+			return;
+		}
+		
+		/* Will result in $api_response being an array of data,
+		parsed from the JSON response of the API listed above */
+		$api_response = json_decode( wp_remote_retrieve_body( $response ), true );
 
+		// Catch tag_name link. If the repo has no releases, it returns no links so, Echo message and exit.
+		$assets = $api_response['assets'];
+
+		if ( ! empty( $assets ) ) {
+			$final_url = $assets[0]['browser_download_url'];
+			return $final_url;
+		} else {
+			$version = $api_response['tag_name'];
 			if (empty($version)) {
 				// Return error message.
 				echo '<p style="color: red;">' . $repo . ' ' . esc_html__( 'repository has no releases. Talk to the Repository Admin.', 'my-text-domain' ) . '</p>';
 				return;
 			}
-			
 			$final_url = 'https://github.com/' . $user . '/' . $repo . '/archive/' . $version . '.zip';
-
-			// Save API link for zip in 5 minute expiry transient inside DB to reduce network calls.
-			set_transient($this->lg_release_zip, $final_url, 5 * MINUTE_IN_SECONDS );
-
 			return $final_url;
-
 		}
-
+		
 	}
 
 	/**
@@ -138,11 +151,11 @@ class LatestGithubRelease {
 	 *
 	 * @since 0.1.0
 	 */
-	public function deactivation() {
+	public function deactivation($atts) {
 
-		if ( true == get_transient( $this->lg_release_zip ) ) {
-			delete_transient( $this->lg_release_zip );
-			delete_transient( $this->lg_release_zip . $repo );
+		$transient = $this->lg_release_zip . '_' . $atts['repo'];
+		if ( true == get_transient( $transient ) ) {
+			delete_transient( $transient );
 		}
 		
 	}
