@@ -7,33 +7,30 @@
  * Author URI: https://omukiguy.com
  * Plugin URI: https://github.com/bahiirwa/latest-github-release
  * Text Domain: latest_github_release
- * 
+ *
  * This is free software released under the terms of the General Public License,
  * version 2, or later. It is distributed WITHOUT ANY WARRANTY; without even the
  * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Full
  * text of the license is available at https://www.gnu.org/licenses/gpl-2.0.txt.
- * 
+ *
  */
 
 namespace bahiirwa\LatestGithubRelease;
 
-
 // Prevent direct access.
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
 class LatestGithubRelease {
 	/**
-	 * Add action to Process shortcodes.
+	 * Add action to process shortcodes.
 	 *
 	 * @since 0.1.0
 	 *
 	 */
 	public function register() {
-	
-		add_shortcode('latest_github_release', array($this, 'process_shortcode'));
-
+		add_shortcode( 'latest_github_release', [ $this, 'process_shortcode' ] );
 	}
 
 	/**
@@ -46,12 +43,11 @@ class LatestGithubRelease {
 	 * @param array $atts Shortcode arguments.
 	 * @return string <a href="url" class="cp-release-link">$atts[name] . ' ' . $atts[type]</a>
 	 */
-	public function process_shortcode($atts) {
-		
+	public function process_shortcode( $atts ) {
 		// Default values for when not passed in shortcode.
 		$defaults = [
-			'repo' => '',
 			'user' => '',
+			'repo' => '',
 			// set default button name to Download
 			'name' => 'Download Zip',
 		];
@@ -60,7 +56,8 @@ class LatestGithubRelease {
 		$atts = shortcode_atts(
 			$defaults,
 			$atts,
-			'latest_github_release');
+			'latest_github_release'
+		);
 
 		// Validate the user and the repo.
 		if ( empty( $atts['user'] ) || empty( $atts['repo'] ) ) {
