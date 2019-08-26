@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Latest Github Release
- * Description: Automatically add a download link to the latest Github repo release zips with a shortcode like [latest_github_release user="Github" repo="years-since"]
+ * Description: Automatically add a download link to the latest Github repo release zips with a shortcode like [latest_github_release user="github" repo="hub"]
  * Version: 1.1.0
  * Author: Laurence Bahiirwa
  * Author URI: https://omukiguy.com
