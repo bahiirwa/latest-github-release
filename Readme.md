@@ -1,8 +1,8 @@
 # Latest Github Release
-Automatically add a download link to the latest Github repo release zips with a shortcode [latest_github_release user="Github" repo="years-since"]
+Automatically add a download link to the latest Github repo release zips with a shortcode [latest_github_release user="github" repo="hub"]
 
 # Usage
-Add the shortcode ```[latest_github_release user="Github" repo="years-since"]``` to desired post/page/widget and save to have the code working.
+Add the shortcode ```[latest_github_release user="github" repo="hub"]``` to desired post/page/widget and save to have the code working.
 
 ## Options
 One can add some customization to the shortcode such as 
