@@ -146,20 +146,6 @@ class LatestGithubRelease {
 	}
 
 	/**
-	 * On deactivation. Clear the links transient created in DB.
-	 *
-	 * @since 0.1.0
-	 */
-	public function deactivation($atts) {
-
-		$transient = $this->lg_release_zip . '_' . $atts['repo'];
-		if ( true == get_transient( $transient ) ) {
-			delete_transient( $transient );
-		}
-		
-	}
-
-	/**
 	 * Return the name of the transient that should be used to cache the
 	 * release information for a repository.
 	 *
@@ -176,5 +162,3 @@ class LatestGithubRelease {
 // On Activation. Start the Plugin class.
 $CP_release_link = new LatestGithubRelease;
 $CP_release_link->register();
-
-register_deactivation_hook(__FILE__, array( 'LatestGithubRelease', 'deactivation' ) );
