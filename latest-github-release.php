@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Latest Github Release
  * Description: Automatically add a download link to the latest Github repo release zips with a shortcode like [latest_github_release user="github" repo="hub"]
- * Version: 1.1.0
- * Author: Laurence Bahiirwa
+ * Version: 1.2.0
+ * Author: Laurence Bahiirwa, James Nylen
  * Author URI: https://omukiguy.com
  * Plugin URI: https://github.com/bahiirwa/latest-github-release
  * Text Domain: latest_github_release
