@@ -41,7 +41,7 @@ class LatestGithubRelease {
 	 * @since 0.1.0
 	 *
 	 * @param array $atts Shortcode arguments.
-	 * @return string <a href="url" class="cp-release-link">$atts[name] . ' ' . $atts[type]</a>
+	 * @return string <a href="(zip url)" class="cp-release-link">$atts[name]</a>
 	 */
 	public function process_shortcode( $atts ) {
 		// Default values for when not passed in shortcode.
