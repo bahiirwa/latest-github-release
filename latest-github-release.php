@@ -7,7 +7,9 @@
  * Author URI: https://omukiguy.com
  * Plugin URI: https://github.com/bahiirwa/latest-github-release
  * Text Domain: latest_github_release
- *
+ * Requires at least: 4.9
+ * Tested up to: 5.3.2
+ * 
  * This is free software released under the terms of the General Public License,
  * version 2, or later. It is distributed WITHOUT ANY WARRANTY; without even the
  * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Full

@@ -1,4 +1,14 @@
 = Latest Github Release =
+Contributors: laurencebahiirwa, jnylen0
+Donate link: https://omukiguy.com/
+Tags: Github, Release, Latest, zip
+Requires at least: 4.9.0
+Tested up to: 5.4
+Requires PHP: 5.6
+Stable tag: 2.0.0
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
 Automatically add a download link to the latest Github repo release zips with
 a shortcode [latest_github_release user="github" repo="hub"]
 
