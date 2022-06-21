@@ -24,28 +24,7 @@ Add the shortcode ```[latest_github_release user="github" repo="hub"]``` to desi
 One can add some customization to the shortcode such as 
 
 * Name of the button = ```[latest_github_release name="Desired Name"]```
-
-==== Use latest_github_release_link filter Hook ====
-
-```
-add_filter( 'latest_github_release_link', 'gmlatest_github_release_link', 10, 3 );
-
-function gmlatest_github_release_link( $html, $atts, $zip_url ) {
-
-    // Add another class to the <a>.
-	$atts['class'] .= ' another-class';
-
-    // Add <h2> around the tag.
-	$html = (
-		'<h2><a href="' . esc_attr( $zip_url ) . '"'
-		. ' class="' . esc_attr( $atts['class'] ) . '">'
-		. esc_html( $atts['name'] )
-		. '</a></h2>'
-	);
-
-	return $html;
-}
-```
+* Use latest_github_release_link filter Hook with 3 options - $html, $atts, $zip_url. [See usage on Github](https://github.com/bahiirwa/Latest-Github-Release).
 
 **Note:** 
 1. Name attribute defaults to the word "Download"
