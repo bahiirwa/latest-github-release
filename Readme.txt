@@ -24,6 +24,7 @@ Add the shortcode ```[latest_github_release user="github" repo="hub"]``` to desi
 One can add some customization to the shortcode such as 
 
 * Name of the button = ```[latest_github_release name="Desired Name"]```
+* HTML Tag Wrap = ```[latest_github_release tag="p"]```. This will output the link in a `<p>`. Any HTML tag can be used in this case.
 
 **Note:** 
 1. Name attribute defaults to the word "Download"
@@ -33,6 +34,11 @@ One can add some customization to the shortcode such as
 If you have any feedback, just write an issue. Or fork the code and submit a PR [on Github](https://github.com/bahiirwa/Latest-Github-Release).
 
 == Changelog ==
+
+** 2.1.0 **
+- Test for WP 6.0
+- Add HTML Wrap to facilitate an HTML Wrap code around the link.
+
 ** 2.0.0 **
 - Updates the plugin to use static functions and to have code that is re-usable by other plugins.
 

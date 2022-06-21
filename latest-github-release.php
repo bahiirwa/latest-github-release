@@ -54,6 +54,7 @@ class LatestGithubRelease {
 			'repo'  => '',
 			'name'  => 'Download Zip', // default button name
 			'class' => 'latest-github-release-link',
+			'tag' => '',
 		];
 
 		// Replace any missing shortcode arguments with defaults.
@@ -88,12 +89,27 @@ class LatestGithubRelease {
 			);
 		}
 
-		$html = (
-			'<a href="' . esc_attr( $zip_url ) . '"'
-			. ' class="' . esc_attr( $atts['class'] ) . '">'
-			. esc_html( $atts['name'] )
-			. '</a>'
-		);
+		// Allow for html wrap. Using filters might be better long term.
+		if ( ! empty( $atts['tag']  ) ) {
+			
+			$html = (
+				'<' . esc_attr( $atts['tag'] ) . '><a href="' . esc_attr( $zip_url ) . '"'
+				. ' class="' . esc_attr( $atts['class'] ) . '">'
+				. esc_html( $atts['name'] )
+				. '</a></' . esc_attr( $atts['tag'] ) . '>'
+			);
+
+		} else {
+
+			$html = (
+				'<a href="' . esc_attr( $zip_url ) . '"'
+				. ' class="' . esc_attr( $atts['class'] ) . '">'
+				. esc_html( $atts['name'] )
+				. '</a>'
+			);
+
+		}
+
 
 		/**
 		 * Filters the HTML for the release link.
