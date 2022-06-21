@@ -44,7 +44,7 @@ If you have any feedback, just write an issue. Or fork the code and submit a PR 
 
 ** 2.1.0 **
 - Test for WP 6.0
-- Add HTML Wrap to facilitate an HTML Wrap code around the link.
+- Fix missing $zip_url in filter.
 
 ** 2.0.0 **
 - Updates the plugin to use static functions and to have code that is re-usable by other plugins.
