@@ -1,4 +1,10 @@
 # Latest Github Release
+
+![WordPress Plugin Active Installs](https://img.shields.io/wordpress/plugin/installs/latest-github-release)
+![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/latest-github-release)
+![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/rating/latest-github-release)
+![WordPress Plugin Last Updated](https://img.shields.io/wordpress/plugin/last-updated/latest-github-release)
+
 Automatically add a download link to the latest Github repo release zips with a shortcode [latest_github_release user="github" repo="hub"]
 
 # Usage
